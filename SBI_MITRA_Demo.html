@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SBI MITRA — Agentic AI Banking Companion</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --navy:       #0B1C3F;
+    --navy-mid:   #122354;
+    --navy-light: #1A3270;
+    --gold:       #D4A843;
+    --gold-light: #F0C96B;
+    --white:      #FFFFFF;
+    --off:        #F4F6FB;
+    --slate:      #64748B;
+    --red:        #C0392B;
+    --amber:      #D97706;
+    --teal:       #0891B2;
+    --green:      #16A34A;
+    --card:       #1E2F55;
+    --bubble-bot: #1E3A5F;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── TOP HEADER ── */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 60%, var(--navy-light));
+    border-bottom: 3px solid var(--gold);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .header-logo {
+    width: 46px; height: 46px;
+    background: var(--gold);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    font-family: 'Playfair Display', serif;
+    color: var(--navy);
+    font-weight: 900;
+  }
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--white);
+    letter-spacing: 0.5px;
+  }
+  .header-sub {
+    font-size: 11px;
+    color: var(--gold-light);
+    margin-top: 2px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .header-badge {
+    background: rgba(212,168,67,0.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 52px 32px 36px;
+    background: radial-gradient(ellipse at top, #1A3270 0%, var(--navy) 60%);
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .hero-title span { color: var(--gold); }
+  .hero-desc {
+    font-size: 16px;
+    color: #99AABF;
+    max-width: 580px;
+    margin: 0 auto 28px;
+    line-height: 1.6;
+  }
+  .hero-pills {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .pill {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .pill-red   { background: rgba(192,57,43,0.2);  border: 1px solid var(--red);   color: #FF7D7D; }
+  .pill-amber { background: rgba(217,119,6,0.2);  border: 1px solid var(--amber); color: #FBB742; }
+  .pill-teal  { background: rgba(8,145,178,0.2);  border: 1px solid var(--teal);  color: #38C5E0; }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    text-align: center;
+    padding: 44px 32px 10px;
+  }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .section-sub {
+    font-size: 14px;
+    color: var(--slate);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* ── AGENT TABS ── */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 28px 32px 0;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border-radius: 40px;
+    border: 2px solid transparent;
+    background: var(--card);
+    color: #99AABF;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: 'Inter', sans-serif;
+  }
+  .tab-btn .tab-icon { font-size: 18px; }
+  .tab-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .tab-btn.active-red   { background: rgba(192,57,43,0.18);  border-color: var(--red);   color: #FF7D7D; }
+  .tab-btn.active-amber { background: rgba(217,119,6,0.18);  border-color: var(--amber); color: #FBB742; }
+  .tab-btn.active-teal  { background: rgba(8,145,178,0.18);  border-color: var(--teal);  color: #38C5E0; }
+
+  /* ── DEMO PANEL ── */
+  .demo-area {
+    display: flex;
+    gap: 28px;
+    padding: 28px 32px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: flex-start;
+  }
+
+  /* Info panel */
+  .info-panel {
+    flex: 1;
+    min-width: 260px;
+    background: var(--card);
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .info-agent-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+  .info-theme {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+  .info-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 16px 0;
+  }
+  .info-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--slate);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .step-list { list-style: none; }
+  .step-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: #C8D8F0;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .info-trigger {
+    background: rgba(255,255,255,0.05);
+    border-left: 3px solid;
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #AABBDD;
+    margin-bottom: 16px;
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .info-outcome {
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  /* Chat panel */
+  .chat-panel {
+    flex: 1.6;
+    min-width: 320px;
+    background: var(--card);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    flex-direction: column;
+  }
+  .chat-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .chat-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .chat-name { font-weight: 600; font-size: 15px; }
+  .chat-status {
+    font-size: 11px;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .dot-live {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  .chat-body {
+    flex: 1;
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 360px;
+    max-height: 420px;
+    overflow-y: auto;
+  }
+  .chat-body::-webkit-scrollbar { width: 4px; }
+  .chat-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+  .msg {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    max-width: 88%;
+  }
+  .msg.shown { opacity: 1; transform: translateY(0); }
+  .msg.user-msg { align-self: flex-end; flex-direction: row-reverse; }
+  .msg-avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .msg-bubble {
+    padding: 11px 15px;
+    border-radius: 16px;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .msg-bubble.bot {
+    background: var(--bubble-bot);
+    color: #C8D8F0;
+    border-bottom-left-radius: 4px;
+  }
+  .msg-bubble.user {
+    color: var(--white);
+    border-bottom-right-radius: 4px;
+  }
+  .msg-label {
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 12px 15px;
+    background: var(--bubble-bot);
+    border-radius: 16px;
+    border-bottom-left-radius: 4px;
+    width: fit-content;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .typing-indicator.visible { opacity: 1; }
+  .typing-indicator span {
+    width: 7px; height: 7px;
+    background: #5577AA;
+    border-radius: 50%;
+    animation: typing 1.2s infinite;
+  }
+  .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing {
+    0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  .chat-footer {
+    padding: 14px 18px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .chat-input {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 10px 18px;
+    font-size: 13px;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .chat-input:focus { border-color: var(--gold); }
+  .chat-input::placeholder { color: #445577; }
+  .send-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: transform 0.2s, filter 0.2s;
+    flex-shrink: 0;
+  }
+  .send-btn:hover { transform: scale(1.1); filter: brightness(1.2); }
+  .replay-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    margin: 4px 18px 14px;
+    transition: all 0.2s;
+    opacity: 0;
+    pointer-events: none;
+    letter-spacing: 0.3px;
+  }
+  .replay-btn.visible { opacity: 1; pointer-events: all; }
+  .replay-btn:hover { filter: brightness(1.15); }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    background: var(--navy-mid);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    flex: 1;
+    min-width: 140px;
+    padding: 22px 20px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.05);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 24px 32px;
+    font-size: 12px;
+    color: #445577;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .footer span { color: var(--gold); }
+
+  /* hidden panels */
+  .agent-panel { display: none; }
+  .agent-panel.active { display: flex; flex-direction: column; gap: 0; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-brand">
+    <div class="header-logo">M</div>
+    <div>
+      <div class="header-title">SBI MITRA</div>
+      <div class="header-sub">Agentic AI Banking Companion</div>
+    </div>
+  </div>
+  <div class="header-badge">🏆 SBI Hackathon @ GFF 2026</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Agentic AI &amp; Emerging Technology</div>
+  <div class="hero-title">Banking that <span>acts</span> before<br>you even ask</div>
+  <div class="hero-desc">MITRA doesn't wait for customers to reach out — it identifies, onboards, activates, and engages them at exactly the right life moment.</div>
+  <div class="hero-pills">
+    <div class="pill pill-red">🎯 Customer Acquisition</div>
+    <div class="pill pill-amber">📱 Digital Adoption</div>
+    <div class="pill pill-teal">💬 Digital Engagement</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-val" style="color:var(--red)">40%</div>
+    <div class="stat-label">Onboarding drop-off reduced</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-val" style="color:var(--amber)">2.5×</div>
+    <div class="stat-label">Products adopted per user</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-val" style="color:var(--teal)">35%+</div>
+    <div class="stat-label">Engagement response rate</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-val" style="color:var(--green)">200M+</div>
+    <div class="stat-label">New users via vernacular</div>
+  </div>
+</div>
+
+<!-- DEMO SECTION -->
+<div class="section-header">
+  <div class="section-label">Live Demo</div>
+  <div class="section-title">See MITRA's 3 Agents in Action</div>
+  <div class="section-sub">Click each agent below to watch a live conversation unfold</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active-red" id="tab-acquire" onclick="switchAgent('acquire')">
+    <span class="tab-icon">🎯</span> Acquire Agent
+  </button>
+  <button class="tab-btn" id="tab-adopt" onclick="switchAgent('adopt')">
+    <span class="tab-icon">📱</span> Adopt Agent
+  </button>
+  <button class="tab-btn" id="tab-engage" onclick="switchAgent('engage')">
+    <span class="tab-icon">💬</span> Engage Agent
+  </button>
+</div>
+
+<!-- DEMO AREA -->
+<div class="demo-area">
+
+  <!-- ── ACQUIRE AGENT ── -->
+  <div class="agent-panel active" id="panel-acquire">
+    <div style="display:flex;gap:28px;align-items:flex-start;width:100%;flex-wrap:wrap;">
+    <!-- info -->
+    <div class="info-panel" style="border-top: 3px solid var(--red);">
+      <div class="info-agent-name" style="color:var(--red)">Acquire Agent</div>
+      <div class="info-theme" style="color:var(--red)">Customer Acquisition</div>
+      <div class="info-trigger" style="border-color:var(--red)">
+        ⚡ Trigger: High-intent behavioral signal detected — user browsed SBI account types 3 times this week
+      </div>
+      <div class="info-label">Agent Flow</div>
+      <ul class="step-list">
+        <li>
+          <div class="step-num" style="background:rgba(192,57,43,0.2);color:var(--red)">1</div>
+          Identifies prospect via app/web behavioral pattern
+        </li>
+        <li>
+          <div class="step-num" style="background:rgba(192,57,43,0.2);color:var(--red)">2</div>
+          Initiates personalized conversation in Hindi
+        </li>
+        <li>
+          <div class="step-num" style="background:rgba(192,57,43,0.2);color:var(--red)">3</div>
+          Guides through conversational KYC — no forms
+        </li>
+        <li>
+          <div class="step-num" style="background:rgba(192,57,43,0.2);color:var(--red)">4</div>
+          Converts prospect to verified account holder
+        </li>
+      </ul>
+      <div class="info-divider"></div>
+      <div class="info-outcome" style="background:rgba(192,57,43,0.12);color:#FF7D7D;border:1px solid rgba(192,57,43,0.3)">
+        ✅ Account opened in under 3 minutes
+      </div>
+    </div>
+    <!-- chat -->
+    <div class="chat-panel" style="border-top: 3px solid var(--red);">
+      <div class="chat-header">
+        <div class="chat-avatar" style="background:rgba(192,57,43,0.2)">🤖</div>
+        <div>
+          <div class="chat-name">MITRA — Acquire Agent</div>
+          <div class="chat-status"><div class="dot-live"></div> Active · Vernacular Mode: Hindi</div>
+        </div>
+      </div>
+      <div class="chat-body" id="chat-acquire">
+        <div class="typing-indicator" id="typing-acquire"><span></span><span></span><span></span></div>
+      </div>
+      <div class="replay-btn" id="replay-acquire" style="background:rgba(192,57,43,0.18);color:#FF7D7D;border:1px solid rgba(192,57,43,0.3);" onclick="replayAgent('acquire')">↺ Replay Conversation</div>
+      <div class="chat-footer">
+        <input class="chat-input" placeholder="Type a message..." readonly />
+        <button class="send-btn" style="background:var(--red)">➤</button>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ── ADOPT AGENT ── -->
+  <div class="agent-panel" id="panel-adopt">
+    <div style="display:flex;gap:28px;align-items:flex-start;width:100%;flex-wrap:wrap;">
+    <div class="info-panel" style="border-top: 3px solid var(--amber);">
+      <div class="info-agent-name" style="color:var(--amber)">Adopt Agent</div>
+      <div class="info-theme" style="color:var(--amber)">Digital Adoption</div>
+      <div class="info-trigger" style="border-color:var(--amber)">
+        ⚡ Trigger: First salary credited to new SBI account — customer has never used SIP or UPI
+      </div>
+      <div class="info-label">Agent Flow</div>
+      <ul class="step-list">
+        <li>
+          <div class="step-num" style="background:rgba(217,119,6,0.2);color:var(--amber)">1</div>
+          Detects first salary credit in real time
+        </li>
+        <li>
+          <div class="step-num" style="background:rgba(217,119,6,0.2);color:var(--amber)">2</div>
+          Profiles digital usage gaps — no SIP, no UPI
+        </li>
+        <li>
+          <div class="step-num" style="background:rgba(217,119,6,0.2);color:var(--amber)">3</div>
+          Explains next best product in plain language
+        </li>
+        <li>
+          <div class="step-num" style="background:rgba(217,119,6,0.2);color:var(--amber)">4</div>
+          Activates SIP with one-tap confirmation
+        </li>
+      </ul>
+      <div class="info-divider"></div>
+      <div class="info-outcome" style="background:rgba(217,119,6,0.12);color:#FBB742;border:1px solid rgba(217,119,6,0.3)">
+        ✅ SIP activated · Customer starts investing
+      </div>
+    </div>
+    <div class="chat-panel" style="border-top: 3px solid var(--amber);">
+      <div class="chat-header">
+        <div class="chat-avatar" style="background:rgba(217,119,6,0.2)">🤖</div>
+        <div>
+          <div class="chat-name">MITRA — Adopt Agent</div>
+          <div class="chat-status"><div class="dot-live"></div> Active · First Salary Event Detected</div>
+        </div>
+      </div>
+      <div class="chat-body" id="chat-adopt">
+        <div class="typing-indicator" id="typing-adopt"><span></span><span></span><span></span></div>
+      </div>
+      <div class="replay-btn" id="replay-adopt" style="background:rgba(217,119,6,0.18);color:#FBB742;border:1px solid rgba(217,119,6,0.3);" onclick="replayAgent('adopt')">↺ Replay Conversation</div>
+      <div class="chat-footer">
+        <input class="chat-input" placeholder="Type a message..." readonly />
+        <button class="send-btn" style="background:var(--amber)">➤</button>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ── ENGAGE AGENT ── -->
+  <div class="agent-panel" id="panel-engage">
+    <div style="display:flex;gap:28px;align-items:flex-start;width:100%;flex-wrap:wrap;">
+    <div class="info-panel" style="border-top: 3px solid var(--teal);">
+      <div class="info-agent-name" style="color:var(--teal)">Engage Agent</div>
+      <div class="info-theme" style="color:var(--teal)">Digital Engagement</div>
+      <div class="info-trigger" style="border-color:var(--teal)">
+        ⚡ Trigger: ₹45,000 jewellery purchase + bridal search pattern detected — life event: upcoming wedding
+      </div>
+      <div class="info-label">Agent Flow</div>
+      <ul class="step-list">
+        <li>
+          <div class="step-num" style="background:rgba(8,145,178,0.2);color:var(--teal)">1</div>
+          Monitors transactions for life-event signals
+        </li>
+        <li>
+          <div class="step-num" style="background:rgba(8,145,178,0.2);color:var(--teal)">2</div>
+          Classifies event: upcoming wedding detected
+        </li>
+        <li>
+          <div class="step-num" style="background:rgba(8,145,178,0.2);color:var(--teal)">3</div>
+          Crafts empathetic, celebratory outreach
+        </li>
+        <li>
+          <div class="step-num" style="background:rgba(8,145,178,0.2);color:var(--teal)">4</div>
+          Offers pre-approved Home Loan at right moment
+        </li>
+      </ul>
+      <div class="info-divider"></div>
+      <div class="info-outcome" style="background:rgba(8,145,178,0.12);color:#38C5E0;border:1px solid rgba(8,145,178,0.3)">
+        ✅ Home Loan application started
+      </div>
+    </div>
+    <div class="chat-panel" style="border-top: 3px solid var(--teal);">
+      <div class="chat-header">
+        <div class="chat-avatar" style="background:rgba(8,145,178,0.2)">🤖</div>
+        <div>
+          <div class="chat-name">MITRA — Engage Agent</div>
+          <div class="chat-status"><div class="dot-live"></div> Active · Life Event: Wedding Detected 💍</div>
+        </div>
+      </div>
+      <div class="chat-body" id="chat-engage">
+        <div class="typing-indicator" id="typing-engage"><span></span><span></span><span></span></div>
+      </div>
+      <div class="replay-btn" id="replay-engage" style="background:rgba(8,145,178,0.18);color:#38C5E0;border:1px solid rgba(8,145,178,0.3);" onclick="replayAgent('engage')">↺ Replay Conversation</div>
+      <div class="chat-footer">
+        <input class="chat-input" placeholder="Type a message..." readonly />
+        <button class="send-btn" style="background:var(--teal)">➤</button>
+      </div>
+    </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  Built by <span>Humaira Naaz</span> · IGDTUW · SBI Hackathon @ GFF 2026 · Theme: <span>Agentic AI & Emerging Tech</span>
+</div>
+
+<script>
+// ── CONVERSATION DATA ──────────────────────────────────────────
+const conversations = {
+  acquire: [
+    { who: 'bot', text: 'Namaste Humaira Ji! 🙏 Mujhe pata chala ki aap SBI savings account kholne mein interested hain. Main MITRA hoon — aapka personal banking companion!' },
+    { who: 'user', text: 'Haan, main account kholna chahti hoon. Par process bahut lamba lagta hai.' },
+    { who: 'bot', text: 'Bilkul samajh sakta hoon! 😊 MITRA ke saath, sirf 3 minute mein account khul jayega — koi form nahi, koi branch visit nahi. Kya aap try karna chahti hain, Huma?' },
+    { who: 'user', text: 'Haan, theek hai. Kya chahiye?' },
+    { who: 'bot', text: '✅ Bas 3 cheezein chahiye:\n\n📌 1. Aadhaar number\n📌 2. Mobile OTP verification\n📌 3. Ek selfie for face match\n\nBaaki sab main sambhal lunga. Aadhaar number share karein?' },
+    { who: 'user', text: '1234 5678 9012' },
+    { who: 'bot', text: 'Perfect! 🎉 Aapke mobile +91-98***5786 par ek OTP bheja hai. Please share karein...' },
+    { who: 'user', text: '583921' },
+    { who: 'bot', text: '✅ OTP verified! Ek selfie lijiye...\n\n[Face match complete ✓]\n\n🎊 Badhai ho Humaira Ji! Aapka SBI Savings Account successfully open ho gaya!\n\nAccount Number: SBI-2026-HN-4421\nDebit Card: 2-3 din mein aayega\n\nKya main aapko YONO app setup karne mein madad karun? 📱' },
+  ],
+  adopt: [
+    { who: 'bot', text: "Hi Humaira! 🎉 Congratulations — your first salary of ₹42,500 has just been credited to your SBI account! Welcome to the working world!" },
+    { who: 'user', text: "Thanks! Didn't expect a message so fast." },
+    { who: 'bot', text: "I keep an eye out for big moments! 😊 Quick question Huma — have you thought about what to do with this salary beyond spending? I noticed you haven't set up any investments yet." },
+    { who: 'user', text: "I want to save but don't know where to start." },
+    { who: 'bot', text: '📈 Perfect — let me show you something simple:\n\n💡 SIP (Systematic Investment Plan)\n→ Just ₹500/month\n→ Auto-deducted from salary\n→ Grows to ~₹72,000 in 8 years at 12% returns\n\nNo risk, no complexity. Want me to set it up right now?' },
+    { who: 'user', text: 'Which fund is best for beginners?' },
+    { who: 'bot', text: "Great question! For a first-time investor like you, I'd recommend:\n\n⭐ SBI Bluechip Fund (Large Cap)\n→ Low risk, consistent returns\n→ 13.4% avg return over 5 years\n→ Trusted by 2.3 crore investors\n\nShall I activate ₹500/month SIP into this fund, Humaira?" },
+    { who: 'user', text: 'Yes, activate it!' },
+    { who: 'bot', text: "✅ Done! Your SIP is now LIVE!\n\n📋 Details:\nFund: SBI Bluechip Fund\nAmount: ₹500/month\nDeduction: Every 1st of month\n\n🌱 You've just started your investment journey, Naaz. In 1 year, you'll have ₹6,500+ saved automatically. Well done! 🙌" },
+  ],
+  engage: [
+    { who: 'bot', text: "Hi Humaira! 💍 I noticed a ₹45,000 jewellery purchase at Tanishq yesterday. Sounds like something special is being planned! Am I right?" },
+    { who: 'user', text: "Yes! I'm getting married in 6 months. So excited!" },
+    { who: 'bot', text: "Congratulations Huma! 🌸 That's wonderful news! Getting married is one of life's biggest milestones — and I want to make sure your finances are ready for this beautiful chapter." },
+    { who: 'user', text: "We're planning to buy a home after the wedding." },
+    { who: 'bot', text: "Perfect timing, Naaz — I have something for you! 🏠\n\nBased on your account history and income pattern, you've been pre-approved for:\n\n✨ SBI Home Loan\n→ Up to ₹45 Lakhs\n→ Interest rate: 8.4% p.a.\n→ EMI as low as ₹34,200/month\n→ Zero processing fee (limited offer!)\n\nWould you like to see the full details?" },
+    { who: 'user', text: 'Wow yes! How do I apply?' },
+    { who: 'bot', text: "It's super easy since you're already pre-approved! 🎉\n\n📋 Just 3 steps:\n1. Confirm loan amount & tenure\n2. Upload salary slips (I can fetch from your account!)\n3. E-sign the application\n\nThe whole process takes ~12 minutes online. Want me to start your application right now?\n\nAlso — congratulations again, Humaira! Wishing you a beautiful wedding and a wonderful new home! 🏡💕" },
+  ],
+};
+
+// ── STATE ──────────────────────────────────────────────────────
+const activeAgent = { name: 'acquire' };
+const agentColors = { acquire: '#C0392B', adopt: '#D97706', engage: '#0891B2' };
+const agentUsers  = { acquire: 'Humaira', adopt: 'Huma', engage: 'Naaz' };
+const timers = {};
+
+// ── SWITCH AGENT ──────────────────────────────────────────────
+function switchAgent(name) {
+  // hide all panels
+  document.querySelectorAll('.agent-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.className = 'tab-btn';
+  });
+  document.getElementById('panel-' + name).classList.add('active');
+  const tab = document.getElementById('tab-' + name);
+  const cls = name === 'acquire' ? 'active-red' : name === 'adopt' ? 'active-amber' : 'active-teal';
+  tab.classList.add(cls);
+  activeAgent.name = name;
+  if (!timers[name]) startConversation(name);
+}
+
+// ── START CONVERSATION ────────────────────────────────────────
+function startConversation(name) {
+  timers[name] = true;
+  const chatEl = document.getElementById('chat-' + name);
+  const typingEl = document.getElementById('typing-' + name);
+  const replayBtn = document.getElementById('replay-' + name);
+  const msgs = conversations[name];
+  const color = agentColors[name];
+  const userName = agentUsers[name];
+
+  replayBtn.classList.remove('visible');
+  // clear previous
+  while (chatEl.firstChild && chatEl.firstChild !== typingEl) chatEl.removeChild(chatEl.firstChild);
+
+  let delay = 600;
+  msgs.forEach((msg, i) => {
+    const isBot = msg.who === 'bot';
+    const typingTime = isBot ? 1200 : 600;
+
+    setTimeout(() => {
+      if (isBot) typingEl.classList.add('visible');
+    }, delay);
+
+    delay += typingTime;
+
+    setTimeout(() => {
+      typingEl.classList.remove('visible');
+      const msgEl = document.createElement('div');
+      msgEl.className = 'msg' + (isBot ? '' : ' user-msg');
+
+      const avatarEl = document.createElement('div');
+      avatarEl.className = 'msg-avatar';
+      avatarEl.style.background = isBot ? `${color}22` : 'rgba(255,255,255,0.08)';
+      avatarEl.textContent = isBot ? '🤖' : '👤';
+
+      const bubbleEl = document.createElement('div');
+      bubbleEl.className = 'msg-bubble ' + (isBot ? 'bot' : 'user');
+      if (!isBot) bubbleEl.style.background = color;
+
+      const labelEl = document.createElement('div');
+      labelEl.className = 'msg-label';
+      labelEl.style.color = isBot ? color : 'rgba(255,255,255,0.7)';
+      labelEl.textContent = isBot ? 'MITRA' : userName;
+
+      const textEl = document.createElement('div');
+      textEl.style.whiteSpace = 'pre-line';
+      textEl.textContent = msg.text;
+
+      bubbleEl.appendChild(labelEl);
+      bubbleEl.appendChild(textEl);
+      msgEl.appendChild(avatarEl);
+      msgEl.appendChild(bubbleEl);
+      chatEl.insertBefore(msgEl, typingEl);
+
+      setTimeout(() => msgEl.classList.add('shown'), 30);
+      chatEl.scrollTop = chatEl.scrollHeight;
+
+      if (i === msgs.length - 1) {
+        setTimeout(() => replayBtn.classList.add('visible'), 600);
+      }
+    }, delay);
+
+    delay += 350;
+  });
+}
+
+// ── REPLAY ────────────────────────────────────────────────────
+function replayAgent(name) {
+  timers[name] = false;
+  const chatEl = document.getElementById('chat-' + name);
+  const typingEl = document.getElementById('typing-' + name);
+  const replayBtn = document.getElementById('replay-' + name);
+  replayBtn.classList.remove('visible');
+  while (chatEl.firstChild && chatEl.firstChild !== typingEl) chatEl.removeChild(chatEl.firstChild);
+  typingEl.classList.remove('visible');
+  setTimeout(() => startConversation(name), 300);
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  setTimeout(() => startConversation('acquire'), 800);
+});
+</script>
+</body>
+</html>
